@@ -3,28 +3,27 @@ package main.java.br.com.alura.loja.teste;
 import java.math.BigDecimal;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 
+import main.java.br.com.alura.loja.dao.ProdutoDAO;
+import main.java.br.com.alura.loja.modelo.Categoria;
 import main.java.br.com.alura.loja.modelo.Produto;
+import main.java.br.com.alura.loja.util.JPAUtil;
 
 public class CadastroProduto {
 	public static void main(String[] args) {
-		
-		Produto produto = new Produto();
-		
-		produto.setNome("mussarela quata");
-		produto.setDescricao("Queijo mussarela quata");
-		produto.setPreco(new BigDecimal("46.90"));
-		
-		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("loja");
-		EntityManager entityManager = entityManagerFactory.createEntityManager();
-		
+
+		Produto produto = new Produto("mussarela quata", //
+				"Queijo mussarela quata", //
+				Categoria.LATICINIOS,//
+				new BigDecimal("46.90"));
+
+		EntityManager entityManager = JPAUtil.getEntityManager();
+		ProdutoDAO produtoDao = new ProdutoDAO(entityManager);
+
 		entityManager.getTransaction().begin();
-		entityManager.persist(produto);
+		produtoDao.cadastrar(produto);
 		entityManager.getTransaction().commit();
 		entityManager.close();
-		
-		
+
 	}
 }

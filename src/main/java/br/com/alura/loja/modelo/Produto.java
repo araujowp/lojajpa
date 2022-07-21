@@ -1,8 +1,11 @@
 package main.java.br.com.alura.loja.modelo;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,6 +20,20 @@ public class Produto {
 	private Long id;
 	private String nome; 
 	private String descricao; 
+	
+	@SuppressWarnings("unused")
+	private LocalDate dataCadastro = LocalDate.now();
+	
+	@Enumerated(EnumType.STRING)
+	private Categoria categoria; 
+	
+	public Produto(String nome, String descricao, Categoria categoria, BigDecimal preco) {
+		super();
+		this.nome = nome;
+		this.descricao = descricao;
+		this.categoria = categoria;
+		this.preco = preco;
+	}
 	
 	public Long getId() {
 		return id;
