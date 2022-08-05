@@ -36,7 +36,7 @@ public class CadastroProduto {
 		
 	}
 
-	private static void cadastrar() {
+	public static void cadastrar() {
 		Categoria categoriaLaticinios = new Categoria("Laticinios");
 		
 		
