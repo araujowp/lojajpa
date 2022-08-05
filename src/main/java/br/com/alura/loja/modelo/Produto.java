@@ -28,6 +28,9 @@ public class Produto {
 	@ManyToOne
 	private Categoria categoria; 
 	
+	public Produto () {
+	}
+	
 	public Produto(String nome, String descricao, Categoria categoria, BigDecimal preco) {
 		super();
 		this.nome = nome;

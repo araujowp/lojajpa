@@ -15,6 +15,9 @@ public class Categoria {
 	private long id;
 	private String nome;
 	
+	public Categoria() {
+	}
+	
 	public Categoria(String nome) {
 		this.setNome(nome);
 	}
