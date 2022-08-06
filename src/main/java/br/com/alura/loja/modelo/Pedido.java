@@ -24,7 +24,7 @@ public class Pedido {
 	@ManyToOne
 	private Cliente cliente; 
 	private LocalDate dataInclusao = LocalDate.now();
-	private BigDecimal valorTotal;
+	private BigDecimal valorTotal = BigDecimal.ZERO;
 	
 	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
 	private List<PedidoItem> pedidoItens = new ArrayList<PedidoItem>();
@@ -72,6 +72,7 @@ public class Pedido {
 	public void adicionarItem(PedidoItem item) {
 		item.setPedido(this);
 		this.pedidoItens.add(item);
+		this.valorTotal = valorTotal.add(item.getValor());
 	}
 	
 }

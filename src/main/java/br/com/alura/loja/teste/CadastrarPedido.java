@@ -1,5 +1,7 @@
 package main.java.br.com.alura.loja.teste;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 
 import main.java.br.com.alura.loja.dao.ClienteDAO;
@@ -9,37 +11,60 @@ import main.java.br.com.alura.loja.modelo.Cliente;
 import main.java.br.com.alura.loja.modelo.Pedido;
 import main.java.br.com.alura.loja.modelo.PedidoItem;
 import main.java.br.com.alura.loja.modelo.Produto;
+import main.java.br.com.alura.loja.modelo.vo.RelatorioVendasVo;
 import main.java.br.com.alura.loja.util.JPAUtil;
 
 public class CadastrarPedido {
 
 	public static void main(String[] args) {
-		CadastroProduto.cadastrar();		
+		CadastroProduto.cadastrarProdutosCategorias();		
 		
 		EntityManager entityManager = JPAUtil.getEntityManager();
 
-		System.out.println("Cadastrar o cliente");
+		PedidoDAO pedidoDao = criarpedidos(entityManager);
 		
-		entityManager.getTransaction().begin();
-		Cliente cliente = new Cliente("Julio Cesar", "22334455");
-		ClienteDAO clienteDAO = new ClienteDAO(entityManager);		
-		clienteDAO.cadastrar(cliente);
+		List<RelatorioVendasVo> itens = pedidoDao.relatorioVendas();
+		itens.forEach(System.out::println);
+		
+		entityManager.close();
+		
+	}
 
-		Cliente clienteNovo = clienteDAO.buscaPorId(1l);
+	private static PedidoDAO criarpedidos(EntityManager entityManager) {
+		entityManager.getTransaction().begin();
+		Cliente julio = new Cliente("Julio Cesar", "22334455");
+		Cliente flavia = new Cliente("Flavia", "33445566");
+		ClienteDAO clienteDAO = new ClienteDAO(entityManager);		
+		clienteDAO.cadastrar(julio);
+		clienteDAO.cadastrar(flavia);
+
+		Cliente julioSalvo = clienteDAO.buscaPorId(1l);
+		Cliente flaviaSalva = clienteDAO.buscaPorId(2l);
 		
 
 		System.out.println("aqui vamos buscar os produtos");
 		ProdutoDAO produtoDAO  = new ProdutoDAO(entityManager);
-		Produto produto = produtoDAO.buscarPorId(1l);
+		Produto produto1 = produtoDAO.buscarPorId(1l);
+		Produto produto2 = produtoDAO.buscarPorId(2l);
+		Produto produto3 = produtoDAO.buscarPorId(3l);
+		Produto produto4 = produtoDAO.buscarPorId(4l);
 		
-		Pedido pedido = new Pedido(clienteNovo);
-		pedido.adicionarItem(new PedidoItem(10, pedido, produto));
+		Pedido pedidoJulio = new Pedido(julioSalvo);
+		pedidoJulio.adicionarItem(new PedidoItem(10, pedidoJulio, produto1));
+		pedidoJulio.adicionarItem(new PedidoItem(7, pedidoJulio, produto2));
+
+		Pedido pedidoFlavia = new Pedido(flaviaSalva);
+		pedidoFlavia.adicionarItem(new PedidoItem(3, pedidoFlavia, produto3));
+		pedidoFlavia.adicionarItem(new PedidoItem(1, pedidoFlavia, produto4));
 		
 		PedidoDAO pedidoDao = new PedidoDAO(entityManager);
-		pedidoDao.cadastrar(pedido);
+		pedidoDao.cadastrar(pedidoJulio);
+		pedidoDao.cadastrar(pedidoFlavia);
+		
 		entityManager.getTransaction().commit();
 		
-		
+		System.out.println("valor total em pedidos : " + pedidoDao.getValorTotal());
+		return pedidoDao;
 	}
 
 }
