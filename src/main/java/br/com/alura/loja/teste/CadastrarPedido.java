@@ -26,7 +26,11 @@ public class CadastrarPedido {
 		List<RelatorioVendasVo> itens = pedidoDao.relatorioVendas();
 		itens.forEach(System.out::println);
 		
+		Pedido pedido1 = pedidoDao.buscarPorIdComCliente(1l);
 		entityManager.close();
+		
+		//testando join fetch
+		System.out.println("O cliente do pedido 1 é: " +pedido1.getCliente().getNome());
 		
 	}
 
