@@ -30,7 +30,7 @@ public class CadastrarPedido {
 		entityManager.close();
 		
 		//testando join fetch
-		System.out.println("O cliente do pedido 1 é: " +pedido1.getCliente().getNome());
+		System.out.println("O cliente do pedido 1 é: " + pedido1.getCliente().getNome());
 		
 	}
 

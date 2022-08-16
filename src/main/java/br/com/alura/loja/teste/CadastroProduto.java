@@ -34,21 +34,23 @@ public class CadastroProduto {
 
 		System.out.println("nosso preço é: " + produtoDao.buscarPreco("Mussarela quata"));
 
+		produtos = produtoDao.buscaPorParametrosComCriteria("Mussarela quata", null, null);
+
+		produtos = produtoDao.buscaPorParametrosComCriteria(null, new BigDecimal("10.50"), null);
+		System.out.println("fim");
+		
+		
 	}
 
 	public static void cadastrarProdutosCategorias() {
-		Categoria categoriaLaticinios = new Categoria("Laticinios");
-		Categoria categoriaBrinquedos = new Categoria("Brinquedos");
-		Categoria categoriaLimpeza = new Categoria("Limpeza");
+		Categoria laticinios = new Categoria("Laticinios");
+		Categoria brinquedos = new Categoria("Brinquedos");
+		Categoria limpeza = new Categoria("Limpeza");
 
-		Produto mussarela = new Produto("Mussarela quata", "Queijo mussarela quata", categoriaLaticinios,
-				new BigDecimal("46.90"));
-		Produto requeijao = new Produto("Requeijão quata", "Requeijão quata pote 200gr", categoriaLaticinios,
-				new BigDecimal("10.50"));
-		Produto funkoPop = new Produto("Funko pop Homem Aranha", "Boneco Funko pop Homem Aranha", categoriaBrinquedos,
-				new BigDecimal("156.90"));
-		Produto detergente = new Produto("Detergente Limpol", "Detergente Limpol 500ml", categoriaLimpeza,
-				new BigDecimal("3.90"));
+		Produto mussarela = new Produto("Mussarela quata", "Queijo mussarela quata", laticinios,  new BigDecimal("46.90"));
+		Produto requeijao = new Produto("Requeijão quata", "Requeijão quata pote 200gr", laticinios, new BigDecimal("10.50"));
+		Produto funkoPop = new Produto("Funko pop Homem Aranha", "Boneco Funko pop Homem Aranha", brinquedos, new BigDecimal("156.90"));
+		Produto detergente = new Produto("Detergente Limpol", "Detergente Limpol 500ml", limpeza, new BigDecimal("3.90"));
 
 		EntityManager entityManager = JPAUtil.getEntityManager();
 
@@ -57,9 +59,9 @@ public class CadastroProduto {
 
 		entityManager.getTransaction().begin();
 
-		categoriaDao.cadastrar(categoriaLaticinios);
-		categoriaDao.cadastrar(categoriaBrinquedos);
-		categoriaDao.cadastrar(categoriaLimpeza);
+		categoriaDao.cadastrar(laticinios);
+		categoriaDao.cadastrar(brinquedos);
+		categoriaDao.cadastrar(limpeza);
 		
 		produtoDao.cadastrar(mussarela);
 		produtoDao.cadastrar(requeijao);
